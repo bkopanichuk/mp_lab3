@@ -1,6 +1,15 @@
 from Py2SQL import Py2SQL
 
+
 class A:
+    a = str
+
+    def __init__(self, a):
+        self.a = a
+        print('A')
+
+
+class V:
     a = str
 
     def __init__(self, a):
@@ -17,10 +26,10 @@ class B(A):
         print('B')
 
 
-class H(B):
+class TestClass2(B):
     c = list()
     cc = str
-    obj_a = A
+    obj_a = V
 
     def __init__(self, a, b, c, cc):
         super().__init__(a, b)
@@ -37,6 +46,7 @@ class TestAttr:
         self.float_attr = float_attr
         self.dict_attr = dict_attr
 
+
 def Test():
     db = {
         "HOST": "hattie.db.elephantsql.com",
@@ -52,7 +62,8 @@ def Test():
     print(client.db_size())
     print(client.db_tables())
     print(client.db_name())
-    client.save_class(H)
+    client.save_class(TestClass2)
     client.db_disconnect()
+
 
 Test()

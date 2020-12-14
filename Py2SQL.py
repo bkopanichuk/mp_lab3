@@ -34,11 +34,15 @@ class Py2SQL:
 
     def db_engine(self):
         """Returns postgres engine"""
-        cursor = self.__client.cursor()
-        cursor.execute('SELECT version()')
-        records = cursor.fetchall()
-        cursor.close()
-        return records[0][0]
+        if self.__client:
+            cursor = self.__client.cursor()
+            cursor.execute('SELECT version()')
+            records = cursor.fetchall()
+            cursor.close()
+            return records[0][0]
+        else:
+            print("Connection not established")
+            return False
 
     def db_name(self):
         """Returns postgres name"""
@@ -46,13 +50,19 @@ class Py2SQL:
             return self.__db_name
         else:
             print("Connection not established")
+            return False
 
     def db_size(self):
-        cursor = self.__client.cursor()
-        cursor.execute("SELECT pg_size_pretty(pg_database_size('" + self.__db_name + "'))")
-        records = cursor.fetchall()
-        cursor.close()
-        return records[0][0]
+        """Returns size of postgres db"""
+        if self.__client:
+            cursor = self.__client.cursor()
+            cursor.execute("SELECT pg_size_pretty(pg_database_size('" + self.__db_name + "'))")
+            records = cursor.fetchall()
+            cursor.close()
+            return records[0][0]
+        else:
+            print("Connection not established")
+            return False
 
     def db_tables(self):
         """Returns list of user`s tables"""
@@ -98,7 +108,7 @@ class Py2SQL:
                   'frozenset': 'TEXT',
                   'set': 'TEXT',
                   '{}': 'TEXT',
-                  "<class 'int'>": 'INT',
+                  "<class 'int'>": 'INTEGER',
                   "<class 'float'>": 'FLOAT',
                   "<class 'str'>": 'TEXT'}
 
@@ -115,10 +125,15 @@ class Py2SQL:
 
 
     def __generate_save_class_sql(self, class_to_save):
-        sql_attributes = "ID INT PRIMARY KEY NOT NULL, "
+        sql_attributes = "Id SERIAL PRIMARY KEY, "
         for attribute, value in class_to_save.__dict__.items():
             if not attribute.startswith("__"):
-                sql_attributes += attribute + " " + self.DATA_TYPES[str(value)] + ", "
+                if str(value) not in self.DATA_TYPES:
+                    if not self.__check_table(value.__name__):
+                        self.save_class(value)
+                    sql_attributes += attribute.capitalize() + "ID INTEGER REFERENCES " + value.__name__ + " (Id) ON DELETE SET NULL, "
+                else:
+                    sql_attributes += attribute + " " + self.DATA_TYPES[str(value)] + ", "
 
         sql_attributes += self.__get_parent_attributes(class_to_save)
 
@@ -126,8 +141,8 @@ class Py2SQL:
         sql = "CREATE TABLE " + class_to_save.__name__ + "(" + sql_attributes + ")"
         print(sql)
         cursor = self.__client.cursor()
-        # cursor.execute(sql)
-        # self.__client.commit()
+        cursor.execute(sql)
+        self.__client.commit()
         cursor.close()
         return True
 
@@ -140,3 +155,4 @@ class Py2SQL:
                 #cursor.execute("CREATE TABLE [IF NOT EXISTS] table_name (column1 datatype(length) column_contraint, column2 datatype(length) column_contraint, column3 datatype(length) column_contraint, table_constraints)")
         else:
             print("Connection not established")
+            return False

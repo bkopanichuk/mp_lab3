@@ -5,11 +5,6 @@ import psycopg2
 
 class Py2SQL:
     def __init__(self):
-        """
-        Invokes when Py2SQL object is created
-        Initializes OracleSQL client
-        Path to OracleSQL client should be set as ORACLE_CLIENT environment variable.
-        """
         print("Use db_connect to connect to database")
         self.__client = None
         self.__db_name = None

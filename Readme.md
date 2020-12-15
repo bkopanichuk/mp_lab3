@@ -26,4 +26,4 @@
 | `save_class()` |  |
 |  `generate_save_object_sql()` |  |
 | `find_object()` |  |
-| `save_object` |  |
+| `save_object()` |  |

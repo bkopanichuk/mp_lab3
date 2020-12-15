@@ -34,7 +34,7 @@ class TestAttr2:
         self.float_attr = float_attr
         self.dict_attr = dict_attr
 
-class TestClass4(B):
+class TestClass5(B):
     c = list()
     cc = str
     ccc = TestAttr2
@@ -65,10 +65,11 @@ def Test():
     print(client.db_tables())
     print(client.db_name())
     #client.save_class(TestClass4)
-    tatr = TestAttr2(12.33, {1,2,3})
-    t = TestClass4([1,2,3], "fsdfsdf", tatr)
-    client.save_object(t)
+    tatr = TestAttr2(12.34, {1,2,3})
+    t = TestClass5([1,2,3], "fsdfsdf", tatr)
     client.find_object(t)
+    client.save_object(t)
+    # client.find_object(t)
     client.db_disconnect()
 
 

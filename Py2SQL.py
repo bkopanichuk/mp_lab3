@@ -187,9 +187,20 @@ class Py2SQL:
 
     def find_object(self, py_object):
         """Find object"""
-        sql = "SELECT * FROM " + py_object.__class__.__name__
+        dict = py_object.__dict__
+        sql_template = ""
+        for el in dict:
+            if str(dict[el].__class__) in self.DATA_TYPES:
+                sql_template += el + " = '" + str(dict[el]) + "' AND "
+            else:
+                sql_template += el + "ID = '" + str(self.find_object(dict[el])[0][0]) + "' AND "
+
+        sql_template = sql_template.rstrip(" AND ")
+        sql = "SELECT * FROM " + py_object.__class__.__name__ + " WHERE " + sql_template
+        print(sql)
         cursor = self.__client.cursor()
         cursor.execute(sql)
+        self.__client.commit()
         records = cursor.fetchall()
         print(records)
         return records
@@ -211,18 +222,37 @@ class Py2SQL:
                         sql_columns += el + "ID, "
                         if not self.find_object(dict[el]):
                             self.save_object(dict[el])
-                            sql_values += "'" + str(dict[el]) + "', "
+                            sql_values += "'" + str(self.find_object(dict[el])[0][0]) + "', "
                         else:
-                            sql_values += "'" + str(dict[el]) + "', "
+                            sql_values += "'" + str(self.find_object(dict[el])[0][0]) + "', "
                 sql_values = sql_values.rstrip(", ")
                 sql_columns = sql_columns.rstrip(", ")
 
                 sql = "INSERT INTO " + py_object.__class__.__name__ + " (" + sql_columns + ") VALUES (" + sql_values + ")"
-                print(sql)
-                # cursor = self.__client.cursor()
-                # cursor.execute(sql)
+                cursor = self.__client.cursor()
+                cursor.execute(sql)
+                self.__client.commit()
+            else:
+                sql_template = ""
+                dict = py_object.__dict__
+                for el in dict:
+                    if str(dict[el].__class__) in self.DATA_TYPES:
+                        sql_template += el + " = '" + str(dict[el]) + "', "
+                    else:
+                        if not self.find_object(dict[el]):
+                            self.save_object(dict[el])
+                            sql_template += el + "ID = '" + str(self.find_object(dict[el])[0][0]) + "', "
+                        else:
+                            sql_template += el + "ID = '" + str(self.find_object(dict[el])[0][0]) + "', "
+                sql_template = sql_template.rstrip(", ")
 
+                sql = "UPDATE " + py_object.__class__.__name__ + " SET " + sql_template + " WHERE id = " + str(self.find_object(py_object)[0][0])
+                cursor = self.__client.cursor()
+                cursor.execute(sql)
+                self.__client.commit()
 
         else:
             print("Connection not established")
             return False
+
+    def delete_object(self, py_object):

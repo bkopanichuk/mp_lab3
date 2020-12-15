@@ -81,6 +81,7 @@ def Test():
     client.find_object(t)
     client.save_object(t)
     client.delete_object(t)
+    client.find_objects_by(TestAttr2, ("float_attr", 12.34), ("dict_attr", "{1, 2, 3}"))
     client.db_disconnect()
 
 

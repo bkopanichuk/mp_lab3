@@ -217,6 +217,26 @@ class Py2SQL:
         print(records)
         return records
 
+    def find_objects_by(self, py_class, *attributes):
+        """Find object by attributes"""
+        dict = attributes
+        print(dict)
+        sql_template = ""
+        for el in dict:
+            if str(el[1].__class__) in self.DATA_TYPES:
+                sql_template += el[0] + " = '" + str(el[1]) + "' AND "
+            else:
+                sql_template += el[0]  + "ID = '" + str(self.find_object(el[1])[0][0]) + "' AND "
+        sql_template = sql_template.rstrip(" AND ")
+        sql = "SELECT * FROM " + py_class.__name__ + " WHERE " + sql_template
+        print(sql)
+        cursor = self.__client.cursor()
+        cursor.execute(sql)
+        self.__client.commit()
+        records = cursor.fetchall()
+        print(records)
+        return records
+
     def save_object(self, py_object):
         """Save object"""
         if self.__client:

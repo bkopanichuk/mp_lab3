@@ -167,6 +167,18 @@ class Py2SQL:
             print("Connection not established")
             return False
 
+    def delete_class(self, py_class):
+        """Delete class"""
+        if self.__client:
+            if self.__check_table(py_class.__name__):
+                sql = "DROP TABLE " + py_class.__name__
+                cursor = self.__client.cursor()
+                cursor.execute(sql)
+                self.__client.commit()
+        else:
+            print("Connection not established")
+            return False
+
 
     def __generate_save_object_sql(self, py_class):
         sql_attributes = ""
@@ -256,3 +268,13 @@ class Py2SQL:
             return False
 
     def delete_object(self, py_object):
+        """Delete object"""
+        if self.__client:
+            if self.__check_table(py_object.__class__.__name__):
+                sql = "DELETE FROM " + py_object.__class__.__name__ + " WHERE id = " + str(self.find_object(py_object)[0][0])
+                cursor = self.__client.cursor()
+                cursor.execute(sql)
+                self.__client.commit()
+        else:
+            print("Connection not established")
+            return False

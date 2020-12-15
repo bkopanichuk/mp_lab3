@@ -45,6 +45,17 @@ class TestClass5(B):
         self.cc = cc
         self.ccc = ccc
 
+class TestClass12(B):
+    k = list()
+    kk = str
+    kkk = TestAttr2
+    obj_a = V
+
+    def __init__(self, k, kk, kkk):
+        self.k = k
+        self.kk = kk
+        self.kkk = kkk
+
 
 
 
@@ -64,12 +75,12 @@ def Test():
     print(client.db_size())
     print(client.db_tables())
     print(client.db_name())
-    #client.save_class(TestClass4)
+    client.delete_class(TestClass12)
     tatr = TestAttr2(12.34, {1,2,3})
     t = TestClass5([1,2,3], "fsdfsdf", tatr)
     client.find_object(t)
     client.save_object(t)
-    # client.find_object(t)
+    client.delete_object(t)
     client.db_disconnect()
 
 

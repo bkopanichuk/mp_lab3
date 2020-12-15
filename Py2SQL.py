@@ -1,6 +1,6 @@
 
 
-import psycopg2
+
 
 
 class Py2SQL:

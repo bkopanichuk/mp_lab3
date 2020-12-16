@@ -79,13 +79,32 @@ class Py2SQL:
             print("Connection not established")
             return False
 
-    def db_table_size(self):
-        pass
+    def db_table_size(self, table):
+        """Returns size of postgres db table"""
+        if self.__client:
+            cursor = self.__client.cursor()
+            cursor.execute("SELECT pg_size_pretty(pg_total_relation_size('" + table + "'))")
+            records = cursor.fetchall()
+            cursor.close()
+            return records[0][0]
+        else:
+            print("Connection not established")
+            return False
 
-    def db_table_structure(self):
-        pass
+    def db_table_structure(self, table):
+        """Returns structure of postgres db table"""
+        if self.__client:
+            cursor = self.__client.cursor()
+            cursor.execute("SELECT * FROM information_schema.columns WHERE table_name = '" + table + "'")
+            records = cursor.fetchall()
+            cursor.close()
+            return records
+        else:
+            print("Connection not established")
+            return False
 
-    def __check_table(self, table):
+
+def find_table(self, table):
         """Check if table is in database"""
         if self.__client:
             cursor = self.__client.cursor()
@@ -131,7 +150,7 @@ class Py2SQL:
         for attribute, value in py_class.__dict__.items():
             if not attribute.startswith("__"):
                 if str(value) not in self.DATA_TYPES:
-                    if not self.__check_table(value.__name__):
+                    if not self.find_table(value.__name__):
                         self.save_class(value)
                     sql_attributes += attribute.capitalize() + "ID INTEGER REFERENCES " + value.__name__ + " (Id) ON DELETE SET NULL, "
                 else:
@@ -146,7 +165,7 @@ class Py2SQL:
     def save_class(self, py_class):
         """Save object`s class"""
         if self.__client:
-            if not self.__check_table(py_class.__name__):
+            if not self.find_table(py_class.__name__):
                 sql = "CREATE TABLE " + py_class.__name__ + "(Id SERIAL PRIMARY KEY, " + self.__generate_save_class_sql(py_class) + ")"
                 print(sql)
                 cursor = self.__client.cursor()
@@ -170,7 +189,7 @@ class Py2SQL:
     def delete_class(self, py_class):
         """Delete class"""
         if self.__client:
-            if self.__check_table(py_class.__name__):
+            if self.find_table(py_class.__name__):
                 sql = "DROP TABLE " + py_class.__name__
                 cursor = self.__client.cursor()
                 cursor.execute(sql)
@@ -185,7 +204,7 @@ class Py2SQL:
         for attribute, value in py_class.__dict__.items():
             if not attribute.startswith("__"):
                 if str(value) not in self.DATA_TYPES:
-                    if not self.__check_table(value.__name__):
+                    if not self.find_table(value.__name__):
                         self.save_class(value)
                     sql_attributes += attribute.capitalize() + "ID INTEGER REFERENCES " + value.__name__ + " (Id) ON DELETE SET NULL, "
                 else:
@@ -240,7 +259,7 @@ class Py2SQL:
     def save_object(self, py_object):
         """Save object"""
         if self.__client:
-            if not self.__check_table(py_object.__class__.__name__):
+            if not self.find_table(py_object.__class__.__name__):
                 self.save_class(py_object.__class__)
             if not self.find_object(py_object):
                 sql_values = ""
@@ -290,7 +309,7 @@ class Py2SQL:
     def delete_object(self, py_object):
         """Delete object"""
         if self.__client:
-            if self.__check_table(py_object.__class__.__name__):
+            if self.find_table(py_object.__class__.__name__):
                 sql = "DELETE FROM " + py_object.__class__.__name__ + " WHERE id = " + str(self.find_object(py_object)[0][0])
                 cursor = self.__client.cursor()
                 cursor.execute(sql)

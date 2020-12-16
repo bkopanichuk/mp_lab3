@@ -1,0 +1,81 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module Py2SQL</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>Py2SQL</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/Users/bogdan/Desktop/mp_lab3/Py2SQL.py">/Users/bogdan/Desktop/mp_lab3/Py2SQL.py</a></font></td></tr></table>
+    <p></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ee77aa">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Classes</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#ee77aa"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl>
+<dt><font face="helvetica, arial"><a href="builtins.html#object">builtins.object</a>
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="Py2SQL.html#Py2SQL">Py2SQL</a>
+</font></dt></dl>
+</dd>
+</dl>
+ <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="Py2SQL">class <strong>Py2SQL</strong></a>(<a href="builtins.html#object">builtins.object</a>)</font></td></tr>
+    
+<tr><td bgcolor="#ffc8d8"><tt>&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="Py2SQL-__init__"><strong>__init__</strong></a>(self)</dt><dd><tt>Initialize&nbsp;self.&nbsp;&nbsp;See&nbsp;help(type(self))&nbsp;for&nbsp;accurate&nbsp;signature.</tt></dd></dl>
+
+<dl><dt><a name="Py2SQL-db_connect"><strong>db_connect</strong></a>(self, db)</dt><dd><tt>Establish&nbsp;connection&nbsp;to&nbsp;postgres&nbsp;database</tt></dd></dl>
+
+<dl><dt><a name="Py2SQL-db_disconnect"><strong>db_disconnect</strong></a>(self)</dt><dd><tt>Disconnect&nbsp;from&nbsp;postgres&nbsp;database</tt></dd></dl>
+
+<dl><dt><a name="Py2SQL-db_engine"><strong>db_engine</strong></a>(self)</dt><dd><tt>Returns&nbsp;postgres&nbsp;engine</tt></dd></dl>
+
+<dl><dt><a name="Py2SQL-db_name"><strong>db_name</strong></a>(self)</dt><dd><tt>Returns&nbsp;postgres&nbsp;name</tt></dd></dl>
+
+<dl><dt><a name="Py2SQL-db_size"><strong>db_size</strong></a>(self)</dt><dd><tt>Returns&nbsp;size&nbsp;of&nbsp;postgres&nbsp;db</tt></dd></dl>
+
+<dl><dt><a name="Py2SQL-db_table_size"><strong>db_table_size</strong></a>(self, table)</dt><dd><tt>Returns&nbsp;size&nbsp;of&nbsp;postgres&nbsp;db&nbsp;table</tt></dd></dl>
+
+<dl><dt><a name="Py2SQL-db_table_structure"><strong>db_table_structure</strong></a>(self, table)</dt><dd><tt>Returns&nbsp;structure&nbsp;of&nbsp;postgres&nbsp;db&nbsp;table</tt></dd></dl>
+
+<dl><dt><a name="Py2SQL-db_tables"><strong>db_tables</strong></a>(self)</dt><dd><tt>Returns&nbsp;list&nbsp;of&nbsp;user`s&nbsp;tables</tt></dd></dl>
+
+<dl><dt><a name="Py2SQL-delete_class"><strong>delete_class</strong></a>(self, py_class)</dt><dd><tt>Delete&nbsp;class</tt></dd></dl>
+
+<dl><dt><a name="Py2SQL-delete_object"><strong>delete_object</strong></a>(self, py_object)</dt><dd><tt>Delete&nbsp;<a href="builtins.html#object">object</a></tt></dd></dl>
+
+<dl><dt><a name="Py2SQL-find_object"><strong>find_object</strong></a>(self, py_object)</dt><dd><tt>Find&nbsp;<a href="builtins.html#object">object</a></tt></dd></dl>
+
+<dl><dt><a name="Py2SQL-find_objects_by"><strong>find_objects_by</strong></a>(self, py_class, *attributes)</dt><dd><tt>Find&nbsp;<a href="builtins.html#object">object</a>&nbsp;by&nbsp;attributes</tt></dd></dl>
+
+<dl><dt><a name="Py2SQL-find_table"><strong>find_table</strong></a>(self, table)</dt><dd><tt>Check&nbsp;if&nbsp;table&nbsp;is&nbsp;in&nbsp;database</tt></dd></dl>
+
+<dl><dt><a name="Py2SQL-save_class"><strong>save_class</strong></a>(self, py_class)</dt><dd><tt>Save&nbsp;<a href="builtins.html#object">object</a>`s&nbsp;class</tt></dd></dl>
+
+<dl><dt><a name="Py2SQL-save_object"><strong>save_object</strong></a>(self, py_object)</dt><dd><tt>Save&nbsp;<a href="builtins.html#object">object</a></tt></dd></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<hr>
+Data and other attributes defined here:<br>
+<dl><dt><strong>DATA_TYPES</strong> = {'()': 'TEXT', "&lt;class 'array'&gt;": 'TEXT', "&lt;class 'dict'&gt;": 'TEXT', "&lt;class 'float'&gt;": 'FLOAT', "&lt;class 'int'&gt;": 'INTEGER', "&lt;class 'list'&gt;": 'TEXT', "&lt;class 'set'&gt;": 'TEXT', "&lt;class 'str'&gt;": 'TEXT', "&lt;class 'tuple'&gt;": 'TEXT', '[]': 'TEXT', ...}</dl>
+
+</td></tr></table></td></tr></table>
+</body></html>

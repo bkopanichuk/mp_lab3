@@ -104,20 +104,20 @@ class Py2SQL:
             return False
 
 
-def find_table(self, table):
-        """Check if table is in database"""
-        if self.__client:
-            cursor = self.__client.cursor()
-            cursor.execute("SELECT to_regclass('" + table + "');")
-            records = cursor.fetchall()
-            cursor.close()
-            if records[0][0] != None:
-                return True
+    def find_table(self, table):
+            """Check if table is in database"""
+            if self.__client:
+                cursor = self.__client.cursor()
+                cursor.execute("SELECT to_regclass('" + table + "');")
+                records = cursor.fetchall()
+                cursor.close()
+                if records[0][0] != None:
+                    return True
+                else:
+                    return False
             else:
+                print("Connection not established")
                 return False
-        else:
-            print("Connection not established")
-            return False
 
     DATA_TYPES = {'[]': 'TEXT',
                   '()': 'TEXT',

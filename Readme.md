@@ -12,9 +12,10 @@
 | `db_name()` |Returns postgres name |
 | `db_size()` | Returns size of postgres db |
 | `db_tables()` | Returns list of user`s tables |
-| `db_table_size()` | ... |
-| `db_table_structure()` | ... |
 | `check_table()`| Check if table is in database |
+| `delete_object` | Delete object |
+| `delete_class` | Delete class  |
+
  
 
 ## Implemented methods
@@ -26,4 +27,6 @@
 | `save_class()` |  |
 |  `generate_save_object_sql()` |  |
 | `find_object()` |  |
-| `save_object()` |  |
+| `save_object` |  |
+| ` find_objects_by`| Find object by attributes|
+
